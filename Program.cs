@@ -1,7 +1,8 @@
 ﻿using Microsoft.Identity.Client;
+using System.Drawing;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using UploadFileToOneDrive;
-using System.Net.Http.Headers;
 
 if (args.Length == 0)
 {
@@ -53,5 +54,18 @@ var response = await http.GetAsync("https://graph.microsoft.com/v1.0/me/drive");
 
 Console.WriteLine($"Status: {response.StatusCode}");
 Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+var folderCheck = await http.GetAsync($"https://graph.microsoft.com/v1.0/me/drive/root:/{settings.FolderName}");
+
+if (folderCheck.StatusCode == System.Net.HttpStatusCode.OK)
+{
+    Console.WriteLine("Folder exists.");
+}
+else
+{
+    Console.WriteLine("Folder does not exist.");
+}
+
+Console.WriteLine(await folderCheck.Content.ReadAsStringAsync());
 
 return 0;
