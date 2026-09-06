@@ -31,6 +31,18 @@ if (settings is null)
     return 1;
 }
 
-Console.WriteLine($"This is your Client ID: {settings.ClientId}");
+var app = PublicClientApplicationBuilder
+    .Create(settings.ClientId)
+    .WithAuthority(AadAuthorityAudience.PersonalMicrosoftAccount)
+    .Build();
+
+string[] scopes = { "Files.ReadWrite" };
+Task ShowDeviceCode(DeviceCodeResult codeResult)
+{
+    Console.WriteLine(codeResult.Message);
+    return Task.CompletedTask;
+}
+
+var result = await app.AcquireTokenWithDeviceCode(scopes, ShowDeviceCode).ExecuteAsync();
 
 return 0;
