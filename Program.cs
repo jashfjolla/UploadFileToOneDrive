@@ -1,6 +1,7 @@
 ﻿using Microsoft.Identity.Client;
 using System.Text.Json;
 using UploadFileToOneDrive;
+using System.Net.Http.Headers;
 
 if (args.Length == 0)
 {
@@ -44,5 +45,13 @@ Task ShowDeviceCode(DeviceCodeResult codeResult)
 }
 
 var result = await app.AcquireTokenWithDeviceCode(scopes, ShowDeviceCode).ExecuteAsync();
+
+var http = new HttpClient();
+http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
+
+var response = await http.GetAsync("https://graph.microsoft.com/v1.0/me/drive");
+
+Console.WriteLine($"Status: {response.StatusCode}");
+Console.WriteLine(await response.Content.ReadAsStringAsync());
 
 return 0;
