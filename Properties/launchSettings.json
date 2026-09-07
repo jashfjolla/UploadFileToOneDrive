@@ -2,7 +2,7 @@
   "profiles": {
     "UploadFileToOneDrive": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\fjoll\\Documents\\FjollaTesting.txt"
+      "commandLineArgs": "\"C:\\Users\\fjoll\\Documents\\empty.txt\""
     }
   }
 }
